@@ -13377,7 +13377,8 @@ Percentage of Dog: 0.11
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Question 2:</strong> This algorithmic choice necessitates that we communicate to the user that we accept human images only when they provide a clear view of a face (otherwise, we risk having unneccessarily frustrated users!). In your opinion, is this a reasonable expectation to pose on the user? If not, can you think of a way to detect humans in images that does not necessitate an image with a clearly presented face?</p>
-<p><strong>Answer:</strong></p>
+<p><strong>Answer:</strong>
+I don't think it's a reasonable expectation. Any unnecessary restriction on the use will highly affect the competition of the solution， and the sales. To solve this, a general idea is to train the model with different possible use cases. More training images taken from different angles, illuminations，postures are needed. On the other hand, It is also feasible to add a preprocessing to implement the image enhancement.</p>
 <p>We suggest the face detector from OpenCV as a potential way to detect human images in your algorithm, but you are free to explore other approaches, especially approaches that make use of deep learning :).  Please use the code cell below to design and test your own face detection algorithm.  If you decide to pursue this <em>optional</em> task, report performance on each of the datasets.</p>
 
 </div>
@@ -14541,6 +14542,20 @@ test_{network} = bottleneck_features['test']</code></pre>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>global average pooling lay was used to convert the tensor to the vector.</li>
+<li>Fully connected layer was used to map the result of previous layers to the dog classification result, which has 133 categories. </li>
+<li>softmax is a typical choice for mulit-class classification.</li>
+</ul>
+<p>We will use the ResNet-50 architecture, pre-trained on the ImageNet dataset,a model contains many "dog" classes among its total of 1000 classes, this model already have learned higher level features that are relevant to our classification problem. Therefore most of the pre-trained neural network layers should be kept.  Considering the new data set is small and similar to the original training data(part of), we just slice off the end of the ResNet-50 and add a new fully connected layer that matches the number(133) of classes in the new data set.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
@@ -14589,15 +14604,6 @@ _________________________________________________________________
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We will use the ResNet-50 architecture, pre-trained on the ImageNet dataset,a model contains many "dog" classes among its total of 1000 classes, this model already have learned higher level features that are relevant to our classification problem. Therefore most of the pre-trained neural network layers should be kept.  Considering the new data set is small and similar to the original training data(part of), we just slice off the end of the ResNet-50 and add a new fully connected layer that matches the number(133) of classes in the new data set.</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -14919,21 +14925,6 @@ Epoch 20/20
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO: Execute your algorithm from Step 6 on</span>
-<span class="c1">## at least 6 images on your computer.</span>
-<span class="c1">## Feel free to use as many code cells as needed.</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
@@ -14948,6 +14939,21 @@ The possible improvements can be:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## TODO: Execute your algorithm from Step 6 on</span>
+<span class="c1">## at least 6 images on your computer.</span>
+<span class="c1">## Feel free to use as many code cells as needed.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
