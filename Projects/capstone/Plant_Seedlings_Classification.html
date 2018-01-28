@@ -11788,8 +11788,11 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Domain-Background">Domain Background<a class="anchor-link" href="#Domain-Background">&#182;</a></h2><p>Weed control, which directly affect the efficiency of algoricoutul, has been researched for several decades. Keeping crop free of weeds is critical in good farm management. Farmers should plan their farm activities well so that they do weeding at the right time and in the right way. For this purpose, to differentiate weed from crop seedling is the essential step. Different seedlings have their unique features on their colors, shape, and outlines. Multiple technologies have been adopted including GPS mapping, ground-based vision identification, remote sensors and so on. This project focuses on to identify and classify the seedlings from the image using machine learning based computer vision.  Fortunately  Aarhus University and University of Southern Denmark recently released a dataset containing images of approximately 960 unique plants belonging to 12 species at several growth stages. those labeled data provides the researchers an opportunity to experiment with different image recognition techniques(for instance, K-nearest, SVM, CNN, and other high performance deep learning models). Kaggle also helped to organize an online competition providing a platform to let researchers communicate and cross-compare the solutions.</p>
-<h3 id="Citation">Citation<a class="anchor-link" href="#Citation">&#182;</a></h3><p>PAPER: A Public Image Database for Benchmark of Plant Seedling Classification Algorithms<br>
-Kaggle Competition: <a href="https://www.kaggle.com/c/plant-seedlings-classification">https://www.kaggle.com/c/plant-seedlings-classification</a></p>
+<h3 id="Citation">Citation<a class="anchor-link" href="#Citation">&#182;</a></h3><ul>
+<li>PAPER: A Public Image Database for Benchmark of Plant Seedling Classification Algorithms (<a href="https://arxiv.org/abs/1711.05458">https://arxiv.org/abs/1711.05458</a>)  </li>
+<li>Kaggle Competition: <a href="https://www.kaggle.com/c/plant-seedlings-classification">https://www.kaggle.com/c/plant-seedlings-classification</a></li>
+<li>Automated Classification of Seedlings Using Computer Vision (<a href="http://plant_recognition.sdu.dk/files/AutomatedClassificationOfSeedlingsUsingComputerVision.pdf">http://plant_recognition.sdu.dk/files/AutomatedClassificationOfSeedlingsUsingComputerVision.pdf</a>)</li>
+</ul>
 
 </div>
 </div>
@@ -11817,10 +11820,36 @@ Kaggle Competition: <a href="https://www.kaggle.com/c/plant-seedlings-classifica
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Datasets are devided by a training set and a test set of images of plant seedlings at various stages of grown. it comprises annotated RGB images with a physical resolution of roughly 10 pixels per mm.  Each image has a filename that is its unique id. The dataset comprises 12 plant species, including:
 <em>(Samples of each species from the database <a href="https://vision.eng.au.dk/plant-seedlings-dataset/">https://vision.eng.au.dk/plant-seedlings-dataset/</a> )</em></p>
-<p><img src="attachment:12seedlings.png" alt="12seedlings.png"></p>
-<h4 id="File-descriptions">File descriptions<a class="anchor-link" href="#File-descriptions">&#182;</a></h4><p>train.csv - the training set, with plant species organized by folder<br>
+<p><img src="../12seedlings.png"></p>
+<h4 id="File-descriptions">File descriptions<a class="anchor-link" href="#File-descriptions">&#182;</a></h4><p><strong>train</strong> dataset:
+Images are all in .png format with RGB color space. Dimension is various from image to image. Images are stored in different folders with the name of its seedling category.</p>
+<p>./train</p>
+
+<pre><code>    /Black-grass (263 images)  
+    /Charlock (390 images)  
+    /Cleavers (287 images)  
+    /Common Chickweed (611 images)  
+    /Common wheat (221 images)  
+    /Fat Hen (475 images)  
+    /Loose Silky-bent (654 images)  
+    /Maize (221 images)  
+    /Scentless Mayweed (516 images)  
+    /Shepherds Purse (231 images)  
+    /Small-flowered Cranesbill (496 images)  
+    /Sugar beet (385 images)  
+
+</code></pre>
+<p><strong>test</strong> dataset:
+All .png images are put in one folder.</p>
+<p>./test</p>
+
+<pre><code>795 images
+
+</code></pre>
+<p>train.csv - the training set, with plant species organized by folder<br>
 test.csv - the test set, need to predict the species of each image<br>
 sample_submission.csv - a sample submission file in the correct format</p>
+<p>Considering it is a small dataset, all examples of the dataset will be used at this project for training, validating and testing.</p>
 
 </div>
 </div>
@@ -11842,6 +11871,68 @@ sample_submission.csv - a sample submission file in the correct format</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To start with, a CNN model is picked as a benchmark. Its architecture presents here:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">)</span>                 <span class="n">Output</span> <span class="n">Shape</span>              <span class="n">Param</span> <span class="c1">#   </span>
+<span class="o">====================================</span>
+<span class="n">input_1</span> <span class="p">(</span><span class="n">InputLayer</span><span class="p">)</span>         <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>         <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_1</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">448</span>       
+<span class="n">_________________________________________________________________</span>
+<span class="n">batch_normalization_1</span> <span class="p">(</span><span class="n">Batch</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">64</span>        
+<span class="n">_________________________________________________________________</span>
+<span class="n">activation_1</span> <span class="p">(</span><span class="n">Activation</span><span class="p">)</span>    <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_2</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">2320</span>      
+<span class="n">_________________________________________________________________</span>
+<span class="n">batch_normalization_2</span> <span class="p">(</span><span class="n">Batch</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">64</span>        
+<span class="n">_________________________________________________________________</span>
+<span class="n">activation_2</span> <span class="p">(</span><span class="n">Activation</span><span class="p">)</span>    <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">max_pooling2d_1</span> <span class="p">(</span><span class="n">MaxPooling2</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_3</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">4640</span>      
+<span class="n">_________________________________________________________________</span>
+<span class="n">batch_normalization_3</span> <span class="p">(</span><span class="n">Batch</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">128</span>       
+<span class="n">_________________________________________________________________</span>
+<span class="n">activation_3</span> <span class="p">(</span><span class="n">Activation</span><span class="p">)</span>    <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">conv2d_4</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>            <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">9248</span>      
+<span class="n">_________________________________________________________________</span>
+<span class="n">batch_normalization_4</span> <span class="p">(</span><span class="n">Batch</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">128</span>       
+<span class="n">_________________________________________________________________</span>
+<span class="n">activation_4</span> <span class="p">(</span><span class="n">Activation</span><span class="p">)</span>    <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>        <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">global_max_pooling2d_1</span> <span class="p">(</span><span class="n">Glob</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>                <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">dense_1</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>              <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>                <span class="mi">2112</span>      
+<span class="n">_________________________________________________________________</span>
+<span class="n">dropout_1</span> <span class="p">(</span><span class="n">Dropout</span><span class="p">)</span>          <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>                <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">dense_2</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>              <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>                <span class="mi">2080</span>      
+<span class="n">_________________________________________________________________</span>
+<span class="n">dropout_2</span> <span class="p">(</span><span class="n">Dropout</span><span class="p">)</span>          <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>                <span class="mi">0</span>         
+<span class="n">_________________________________________________________________</span>
+<span class="n">dense_3</span> <span class="p">(</span><span class="n">Dense</span><span class="p">)</span>              <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>                <span class="mi">396</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -11870,6 +11961,7 @@ Given positive/negative rates for each class <strong>k</strong>, the resulting s
 <p>A theoretical workflow for this project will be</p>
 <ul>
 <li>Data prepare</li>
+<li>Pre-processing</li>
 <li>Iteration of:<ul>
 <li>Model training and validation</li>
 <li>Parameter tuning</li>
@@ -11895,9 +11987,17 @@ Given positive/negative rates for each class <strong>k</strong>, the resulting s
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Pre-processing">Pre-processing<a class="anchor-link" href="#Pre-processing">&#182;</a></h4><p>Images of the provided dataset have different dimensions. Thus a resize step is needed to convert all images to the same size. The RGB data of all pixels will be normalized from 255 to 1. Data argumentation will also be implemented by adding shift, rotation, and flip. Tools like keras ImageDataGenerator will be used.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Model training and validation</strong></p>
-<p>More and more computer vision challenges have been successfully launched. There are a few of architectures published showing a really good performance on image recognition. Keras has pretrained models of those architectures including Xception, VGG, Inception, etc. It will help me to quickly test different models and evaluate their performances. 
-In this step, tools like tensorflow and keras will be used.</p>
+<p>More and more computer vision challenges have been successfully launched. There are a few of architectures published showing a really good performance on image recognition. Keras has pretrained models of those architectures including Xception, VGG, Inception, etc. It will help me to quickly test different models and evaluate their performances. NVIDIA CNN model(<a href="https://arxiv.org/pdf/1604.07316.pdf">https://arxiv.org/pdf/1604.07316.pdf</a>) is another interesting option. In this step, tools like tensorflow and keras will be used.</p>
 
 </div>
 </div>
