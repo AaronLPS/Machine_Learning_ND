@@ -25,10 +25,10 @@ https://vision.eng.au.dk/?download=/data/WeedData/ImagesFromTheWild.zip
 7. Run __Benchmark_CNN_keras_model_V1-2.ipynb__ to train the benchmark model. It is the first try while I started this project at my PC.
 
 ## Tensorboard
-Use the following command to check the progress of the model training
-_tensorboard --logdir=./logs_ 
-The folder named __logs/Refine milestones__ includes all records that listed at capstone report(Refinement Section).
+Use the following command to check the progress of the model training  
+_tensorboard --logdir=./logs_   
+The folder named __logs/Refine milestones__ includes all records that listed at capstone report(Refinement Section).  
 
 ## Model
-Benchmark Model: /model/CNNbenchmark.h5
-Final Model: /model/CNN_AWS_TEST3-NVIDIA-bn-gap-33-batch800-deep.h5 
+Benchmark Model: /model/CNNbenchmark.h5  
+Final Model: /model/CNN_AWS_TEST3-NVIDIA-bn-gap-33-batch800-deep.h5   
