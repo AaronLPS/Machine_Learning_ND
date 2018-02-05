@@ -31,4 +31,9 @@ The folder named __logs/Refine milestones__ includes all records that listed at 
 
 ## Model
 Benchmark Model: /model/CNNbenchmark.h5  
-Final Model: /model/CNN_AWS_TEST3-NVIDIA-bn-gap-33-batch800-deep.h5   
+Final Model: /model/CNN_AWS_TEST3-NVIDIA-bn-gap-33-batch800-deep.h5     
+
+## Kaggle Submissions  
+Benchmark Model: /KaggleSubmissions/BenchmarkSubmissions.csv   
+Final Model: /model/CNN_AWS_TEST3-NVIDIA-bn-gap-33-batch800-deep.csv   
+
