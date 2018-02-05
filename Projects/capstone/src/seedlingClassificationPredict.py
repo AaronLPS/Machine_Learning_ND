@@ -8,18 +8,18 @@ CATEGORIES = ['Black-grass', 'Charlock', 'Cleavers', 'Common Chickweed', 'Common
               'Maize', 'Scentless Mayweed', 'Shepherds Purse', 'Small-flowered Cranesbill', 'Sugar beet']
 NUM_CATEGORIES = len(CATEGORIES)
 
-# Resize the test data
 
+# Resize the test data
 DIM =128
 z = glob.glob('../data/TEST1/test/*.png')
 test_imgs = []
 names = []
-for fn in z:
+for fn in z:                        # read all .png files and resize them to (DIM,DIM)
     if fn[-3:] != 'png':
         continue
     names.append(fn.split('/')[-1])
     new_img = Image.open(fn)
-    test_img = ImageOps.fit(new_img, (DIM, DIM), Image.ANTIALIAS).convert('RGB')
+    test_img = ImageOps.fit(new_img, (DIM, DIM), Image.ANTIALIAS).convert('RGB') # Image.ANTIALIAS (a high-quality downsampling filter)
     test_imgs.append(test_img)
 
 # Load the trained Model
@@ -37,6 +37,8 @@ testX = timgs.reshape(timgs.shape[0], DIM, DIM, 3) / 255
 
 yhat = model.predict(testX)
 
+# a submission .csv file need to be created based on the formate defined by Kaggle
+# check the submission formate here: https://www.kaggle.com/c/plant-seedlings-classification/data
 preds = []
 for i in range(len(yhat)):
     pos = np.argmax(yhat[i])
